@@ -13,7 +13,7 @@ on:
       - opened
 
 permissions:
-  checks: write
+  packages: write
 
 jobs:
   publish-prs:
