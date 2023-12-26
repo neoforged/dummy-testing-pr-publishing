@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+    if (new File(rootDir, '../GradleUtils').exists())
+        includeBuild('../GradleUtils')
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
+}

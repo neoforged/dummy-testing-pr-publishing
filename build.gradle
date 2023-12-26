@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+    id 'net.neoforged.gradleutils' version '3.0.0-alpha.9'
+}
+
+application {
+    mainClass.set('net.neoforged.dummytesting.Main')
+}
+
+group = 'net.neoforged'
+
+changelog {
+    from '1.0'
+}
+
+println("Version: ${version = gradleutils.version}")
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
