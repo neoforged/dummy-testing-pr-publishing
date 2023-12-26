@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Sum: " + add(Stream.of(args).mapToInt(Integer::valueOf).toArray()));
-        System.out.println("It's actually that, trust me bro");
+        System.out.println("It's actually that, trust me bro. k?");
     }
 
     public static int add(int... values) {
