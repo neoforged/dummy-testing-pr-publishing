@@ -17,4 +17,4 @@ jobs:
     uses: neoforged/actions/.github/workflows/build-prs.yml@main
     with:
       java: 8
-      gradle_tasks: test
+      gradle_tasks: test -Psome.thing=abcd
