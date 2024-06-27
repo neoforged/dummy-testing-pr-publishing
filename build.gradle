@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'maven-publish'
-    id 'net.neoforged.gradleutils' version '3.0.0-alpha.9'
+    id 'net.neoforged.gradleutils' version '3.0.0-alpha.10'
 }
 
 application {
