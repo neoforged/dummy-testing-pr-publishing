@@ -10,7 +10,7 @@
         "tools\\.properties$"
       ],
       "matchStrings": [
-        "[A-Z_]+=(?<depName>[a-z0-9:\\.-]+):(?<currentValue>[\\d\\.]+)"
+        "[A-Z_]+=(?<depName>[\\w:\\.-]+):(?<currentValue>[\\d\\.]+)(:(?<depClassifier>[a-z]+))?"
       ],
       "datasourceTemplate": "maven"
     }
