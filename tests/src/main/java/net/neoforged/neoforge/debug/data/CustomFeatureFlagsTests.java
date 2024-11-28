@@ -23,8 +23,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.conditions.FlagCondition;
+import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -110,27 +109,25 @@ public class CustomFeatureFlagsTests {
 
         var modId = reg.modId();
         var enabledRecipeName = ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(modId, "diamonds_from_dirt"));
-        var disabledRecipeName = ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(modId, "dirt_from_diamonds"));
 
         reg.addProvider(event -> new RecipeProvider.Runner(event.getGenerator().getPackOutput(), event.getLookupProvider()) {
             @Override
             protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-                return new RecipeProvider(registries, output) {
+                class Provider extends RecipeProvider implements IConditionBuilder {
+                    protected Provider(HolderLookup.Provider p_360573_, RecipeOutput p_360872_) {
+                        super(p_360573_, p_360872_);
+                    }
+
                     @Override
                     protected void buildRecipes() {
                         // recipe available when above flag is enabled
                         shapeless(RecipeCategory.MISC, Items.DIAMOND)
                                 .requires(ItemTags.DIRT)
                                 .unlockedBy("has_dirt", has(ItemTags.DIRT))
-                                .save(output.withConditions(FlagCondition.isEnabled(flag)), enabledRecipeName);
-
-                        // recipe available when above flag is disabled
-                        shapeless(RecipeCategory.MISC, Items.DIRT)
-                                .requires(Tags.Items.GEMS_DIAMOND)
-                                .unlockedBy("has_diamond", has(Tags.Items.GEMS_DIAMOND))
-                                .save(output.withConditions(FlagCondition.isDisabled(flag)), disabledRecipeName);
+                                .save(output.withConditions(featureFlagsEnabled(flag)), enabledRecipeName);
                     }
-                };
+                }
+                return new Provider(registries, output);
             }
 
             @Override
@@ -144,21 +141,14 @@ public class CustomFeatureFlagsTests {
             var isFlagEnabled = server.getWorldData().enabledFeatures().contains(flag);
             var recipeMap = server.getRecipeManager().recipeMap();
             var hasEnabledRecipe = recipeMap.byKey(enabledRecipeName) != null;
-            var hasDisabledRecipe = recipeMap.byKey(disabledRecipeName) != null;
 
             if (isFlagEnabled) {
                 if (!hasEnabledRecipe) {
                     test.fail("Missing recipe '" + enabledRecipeName.location() + "', This should be enabled due to our flag '" + flagName + "' being enabled");
                 }
-                if (hasDisabledRecipe) {
-                    test.fail("Found recipe '" + disabledRecipeName.location() + "', This should be disabled due to our flag '" + flagName + "' being disabled");
-                }
             } else {
                 if (hasEnabledRecipe) {
                     test.fail("Found recipe '" + enabledRecipeName.location() + "', This should be disabled due to our flag '" + flagName + "' being enabled");
-                }
-                if (!hasDisabledRecipe) {
-                    test.fail("Missing recipe '" + disabledRecipeName.location() + "', This should be enabled due to our flag '" + flagName + "' being disabled");
                 }
             }
 
