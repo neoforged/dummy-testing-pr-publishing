@@ -17,9 +17,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.SectionPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.context.ContextKey;
@@ -129,12 +127,10 @@ public class ClientEventTests {
         test.whenEnabled(listeners -> {
             var item = Items.IRON_BLOCK;
             var itemStack = item.getDefaultInstance();
-            var modelId = ModelResourceLocation.inventory(BuiltInRegistries.ITEM.getKey(item));
             listeners.forge().addListener((final RenderPlayerEvent.Post event) -> {
                 event.getPoseStack().pushPose();
                 event.getPoseStack().translate(0, 2, 0);
-                var model = Minecraft.getInstance().getModelManager().getModel(modelId);
-                Minecraft.getInstance().getItemRenderer().render(itemStack, ItemDisplayContext.GROUND, false, event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), OverlayTexture.NO_OVERLAY, model);
+                Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.GROUND, event.getPackedLight(), OverlayTexture.NO_OVERLAY, event.getPoseStack(), event.getMultiBufferSource(), Minecraft.getInstance().level, 0);
                 event.getPoseStack().popPose();
             });
             test.requestConfirmation(Minecraft.getInstance().player, Component.literal("Is an iron block rendered above you in third-person?"));

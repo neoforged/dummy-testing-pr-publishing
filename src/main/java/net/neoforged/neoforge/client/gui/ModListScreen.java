@@ -390,16 +390,19 @@ public class ModListScreen extends Screen {
                     if (logoResource != null)
                         logo = NativeImage.read(logoResource.get());
                     if (logo != null) {
-
-                        return Pair.of(tm.register("modlogo", new DynamicTexture(logo) {
+                        var textureId = ResourceLocation.fromNamespaceAndPath("neoforge", "modlogo");
+                        tm.register(textureId, new DynamicTexture(logo) {
                             @Override
                             public void upload() {
                                 this.bind();
                                 NativeImage td = this.getPixels();
                                 // Use custom "blur" value which controls texture filtering (nearest-neighbor vs linear)
-                                this.getPixels().upload(0, 0, 0, 0, 0, td.getWidth(), td.getHeight(), selectedMod.getLogoBlur(), false, false, false);
+                                // TODO 1.21.4 restore selectedMod.getLogoBlur() check
+                                this.getPixels().upload(0, 0, 0, 0, 0, td.getWidth(), td.getHeight(), false);
                             }
-                        }), new Size2i(logo.getWidth(), logo.getHeight()));
+                        });
+
+                        return Pair.of(textureId, new Size2i(logo.getWidth(), logo.getHeight()));
                     }
                 } catch (IOException | IllegalArgumentException e) {}
                 return Pair.<ResourceLocation, Size2i>of(null, new Size2i(0, 0));
