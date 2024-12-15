@@ -10,6 +10,7 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.JavaExec;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
@@ -22,20 +23,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Runs <a href="https://github.com/neoforged/JavaSourceTransformer">JavaSourceTransformer</a> to apply
- * access transformers to the Minecraft source code for extending the access level of existing classes/methods/etc.
- * <p>
- * Note that at runtime, FML also applies access transformers.
+ * Runs <a href="https://github.com/neoforged/JavaSourceTransformer">JavaSourceTransformer</a> over the Minecraft source code.
  */
-abstract class ApplyAccessTransformer extends JavaExec {
-    @InputFile
-    public abstract RegularFileProperty getInputJar();
-
+abstract class TransformSources extends JavaExec {
+    @Optional
     @InputFiles
     public abstract ConfigurableFileCollection getAccessTransformers();
 
     @Input
-    public abstract Property<Boolean> getValidate();
+    @Optional
+    public abstract Property<Boolean> getValidateAccessTransformers();
+
+    @Optional
+    @InputFiles
+    public abstract ConfigurableFileCollection getInterfaceInjectionData();
+
+    @InputFile
+    public abstract RegularFileProperty getInputJar();
 
     @OutputFile
     public abstract RegularFileProperty getOutputJar();
@@ -48,7 +52,7 @@ abstract class ApplyAccessTransformer extends JavaExec {
     public abstract RegularFileProperty getLibrariesFile();
 
     @Inject
-    public ApplyAccessTransformer() {}
+    public TransformSources() {}
 
     @Override
     @TaskAction
@@ -63,15 +67,29 @@ abstract class ApplyAccessTransformer extends JavaExec {
         }
 
         var args = new ArrayList<>(Arrays.asList(
-                "--enable-accesstransformers",
-                "--access-transformer-validation", getValidate().get() ? "error" : "log",
                 "--libraries-list", getLibrariesFile().getAsFile().get().getAbsolutePath()
         ));
 
-        for (var file : getAccessTransformers().getFiles()) {
+        if (!getAccessTransformers().isEmpty()) {
             args.addAll(Arrays.asList(
-                    "--access-transformer", file.getAbsolutePath()
+                    "--enable-accesstransformers",
+                    "--access-transformer-validation", getValidateAccessTransformers().get() ? "error" : "log"
             ));
+            for (var file : getAccessTransformers().getFiles()) {
+                args.addAll(Arrays.asList(
+                        "--access-transformer", file.getAbsolutePath()
+                ));
+            }
+        }
+
+        if (!getInterfaceInjectionData().isEmpty()) {
+            args.add("--enable-interface-injection");
+
+            for (var file : getInterfaceInjectionData().getFiles()) {
+                args.addAll(Arrays.asList(
+                        "--interface-injection-data", file.getAbsolutePath()
+                ));
+            }
         }
 
         args.addAll(Arrays.asList(
