@@ -12,10 +12,16 @@ public class Main {
 
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated
     public static int add(int... values) {
         int sum = 0;
         for (int value : values) sum += value;
         return sum;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        // I am overriding a deprecated for removal method
+        super.finalize();
     }
 }
