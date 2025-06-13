@@ -1,7 +1,9 @@
 package net.neoforged.dummytesting;
 
 public class Ok {
-    {
-        Main.add(1, 2);
+    public void run() {
+        if (true) {
+            Main.add(1, 2);
+        }
     }
 }

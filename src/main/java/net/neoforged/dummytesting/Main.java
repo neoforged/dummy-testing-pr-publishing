@@ -6,7 +6,10 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Sum: " + add(Stream.of(args).mapToInt(Integer::valueOf).toArray()));
-        ok();
+    }
+
+    public static <T> void someVarArgs(T... ts) {
+
     }
 
     @Deprecated
@@ -14,9 +17,5 @@ public class Main {
         int sum = 0;
         for (int value : values) sum += value;
         return sum;
-    }
-
-    public static <T> void varArgs(T... ts) {
-
     }
 }
