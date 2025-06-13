@@ -12,7 +12,7 @@ public class Main {
 
     }
 
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public static int add(int... values) {
         int sum = 0;
         for (int value : values) sum += value;
