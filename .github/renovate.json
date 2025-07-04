@@ -26,7 +26,7 @@
     "minecraft-versions": {
       "defaultRegistryUrlTemplate": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
       "transformTemplates": [
-        "{\"releases\": versions[id=\"25w21a\"].{ \"version\": id, \"releaseTimestamp\": releaseTime }}"
+        "{\"releases\": versions[id in [\"25w21a\", \"25w20a\"]].{ \"version\": id, \"releaseTimestamp\": releaseTime }}"
       ]
     }
   }
