@@ -8,7 +8,7 @@
     {
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
-        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter"]
+        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter -Dgradle.user.home=/usr/src/app/.gradle"]
       },
       "commitMessageTopic": "generated Minecraft versions list"
     }
