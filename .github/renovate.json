@@ -3,12 +3,15 @@
   "extends": [
     "github>neoforged/actions:renovate_preset"
   ],
+  "env":{
+    "GRADLE_USER_HOME": "/usr/src/app/.gradle"
+  },
   "baseBranches": ["mdg"],
   "packageRules": [
     {
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
-        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter -Dgradle.user.home=/usr/src/app/.gradle"]
+        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter"]
       },
       "commitMessageTopic": "generated Minecraft versions list"
     }
