@@ -18,7 +18,6 @@
       "fileMatch": ["MinecraftVersionList\\.java$"],
       "matchStrings": ["public static final List<String> VERSIONS = List\\.of\\(\"(?<currentValue>[\\w\\.]+)\""],
       "depNameTemplate": "generated-minecraft-version-list",
-      "versioningTemplate": "semver-coerced",
       "datasourceTemplate": "custom.minecraft-versions"
     }
   ],
