@@ -15,6 +15,7 @@
   "customManagers": [
     {
       "customType": "regex",
+      "depTypeTemplate": "generated",
       "fileMatch": ["MinecraftVersionList\\.java$"],
       "matchStrings": ["public static final List<String> VERSIONS = List\\.of\\(\"(?<currentValue>[\\w\\.]+)\""],
       "depNameTemplate": "minecraft-version-list",
