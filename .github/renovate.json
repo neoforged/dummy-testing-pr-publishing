@@ -15,9 +15,10 @@
   "customManagers": [
     {
       "customType": "regex",
+      "depTypeTemplate": "generated",
       "fileMatch": ["MinecraftVersionList\\.java$"],
       "matchStrings": ["public static final List<String> VERSIONS = List\\.of\\(\"(?<currentValue>[\\w\\.]+)\""],
-      "depNameTemplate": "generated-minecraft-version-list",
+      "depNameTemplate": "minecraft-version-list",
       "datasourceTemplate": "custom.minecraft-versions"
     }
   ],
@@ -25,7 +26,7 @@
     "minecraft-versions": {
       "defaultRegistryUrlTemplate": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
       "transformTemplates": [
-        "{\"releases\": versions[id in [\"25w21a\", \"25w20a\"]].{ \"version\": id, \"releaseTimestamp\": releaseTime }}"
+        "{\"releases\": versions.{ \"version\": id, \"releaseTimestamp\": releaseTime }}"
       ]
     }
   }
