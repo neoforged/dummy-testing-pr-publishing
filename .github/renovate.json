@@ -3,16 +3,30 @@
   "extends": [
     "github>neoforged/actions:renovate_preset"
   ],
+  "baseBranches": ["mdg"],
+  "packageRules": [
+    {
+      "matchDatasources": ["custom.minecraft-versions"],
+      "postUpgradeTasks": {
+        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter"]
+      }
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "tools\\.properties$"
-      ],
-      "matchStrings": [
-        "[A-Z_]+=(?<depName>[\\w:\\.-]+):(?<currentValue>[\\d\\.]+)(:(?<depClassifier>[a-z]+))?"
-      ],
-      "datasourceTemplate": "maven"
+      "managerFilePatterns": ["src/generated/java/net/neoforged/moddevgradle/internal/generated/MinecraftVersionList.java"],
+      "matchStrings": ["public static final List<String> VERSIONS = List\\.of\\(\"(?<currentValue>[\\w\\.]+)\""],
+      "depNameTemplate": "generated-minecraft-version-list",
+      "datasourceTemplate": "custom.minecraft-versions"
     }
-  ]
+  ],
+  "customDatasources": {
+    "minecraft-versions": {
+      "defaultRegistryUrlTemplate": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
+      "transformTemplates": [
+        "{\"releases\": versions.{ \"version\": id, \"releaseTimestamp\": releaseTime }}"
+      ]
+    }
+  }
 }
