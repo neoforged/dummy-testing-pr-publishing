@@ -9,14 +9,14 @@
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
         "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter"]
-      }
+      },
+      "commitMessageTopic": "generated Minecraft versions list"
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
       "depTypeTemplate": "generated",
-      "commitMessageTopic": "generated Minecraft versions list",
       "fileMatch": ["MinecraftVersionList\\.java$"],
       "matchStrings": ["public static final List<String> VERSIONS = List\\.of\\(\"(?<currentValue>[\\w\\.]+)\""],
       "depNameTemplate": "minecraft-version-list",
