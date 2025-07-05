@@ -5,7 +5,6 @@
   ],
   "env":{
     "GRADLE_USER_HOME": ".gradle/gradlehome",
-    "XDG_CONFIG_HOME": ".gradle/usrhome/.git", 
     "_JAVA_OPTIONS": "-Duser.home=.gradle/usrhome"
   },
   "baseBranches": ["mdg"],
@@ -15,6 +14,7 @@
       "postUpgradeTasks": {
         "commands": [
           "git fetch --tags",
+          "mkdir -p .gradle/usrhome/.git/jgit",
           "./gradlew :generateVersionOrder :generateMojangRepositoryFilter"
         ]
       },
