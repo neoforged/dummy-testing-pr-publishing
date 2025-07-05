@@ -6,7 +6,6 @@
   "env":{
     "GRADLE_USER_HOME": ".gradle/userhome",
     "XDG_CONFIG_HOME": ".gradle/git", 
-    "HOME": ".gradle/usrhome", 
     "GIT_CONFIG_NOSYSTEM": "nosystem",
     "_JAVA_OPTIONS": "-Duser.home=.gradle/usrhome"
   },
@@ -15,7 +14,10 @@
     {
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
-        "commands": ["./gradlew :generateVersionOrder :generateMojangRepositoryFilter"]
+        "commands": [
+          "git fetch --tags",
+          "./gradlew :generateVersionOrder :generateMojangRepositoryFilter"
+        ]
       },
       "commitMessageTopic": "generated Minecraft versions list"
     }
