@@ -13,8 +13,6 @@
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
         "commands": [
-          "git fetch --tags",
-          "mkdir -p .gradle/usrhome/.git/jgit",
           "./gradlew :generateVersionOrder :generateMojangRepositoryFilter"
         ]
       },
