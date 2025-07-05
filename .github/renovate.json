@@ -4,10 +4,10 @@
     "github>neoforged/actions:renovate_preset"
   ],
   "env":{
-    "GRADLE_USER_HOME": ".gradle/userhome",
-    "XDG_CONFIG_HOME": ".gradle/git", 
-    "GIT_CONFIG_NOSYSTEM": "nosystem",
-    "_JAVA_OPTIONS": "-Duser.home=.gradle/usrhome"
+    "GRADLE_USER_HOME": ".gradle/gradlehome",
+    "XDG_CONFIG_HOME": ".gradle/usrhome/.git", 
+    "_JAVA_OPTIONS": "-Duser.home=.gradle/usrhome",
+    "GIT_CONFIG_NOSYSTEM": "nosystem"
   },
   "baseBranches": ["mdg"],
   "packageRules": [
