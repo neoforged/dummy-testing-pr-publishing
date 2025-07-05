@@ -13,7 +13,7 @@
       "matchDatasources": ["custom.minecraft-versions"],
       "postUpgradeTasks": {
         "commands": [
-          "./gradlew :generateVersionOrder :generateMojangRepositoryFilter"
+          "./gradlew :generateVersionOrder :generateMojangRepositoryFilter :immaculateApply"
         ]
       },
       "commitMessageTopic": "generated Minecraft versions list"
