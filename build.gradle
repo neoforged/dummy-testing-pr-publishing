@@ -10,7 +10,7 @@ plugins {
     id 'com.gradleup.shadow' version '8.3.0'
 }
 
-Process p = new ProcessBuilder("git", "describe").start();
+Process p = new ProcessBuilder("git", "tag", "-l").start();
 if (true) throw new RuntimeException(new String(p.getInputStream().readAllBytes()))
 
 group = 'net.neoforged'
