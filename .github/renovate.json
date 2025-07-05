@@ -6,7 +6,8 @@
   "env":{
     "GRADLE_USER_HOME": ".gradle/userhome",
     "XDG_CONFIG_HOME": ".gradle/git", 
-    "HOME": ".gradle/usrhome"
+    "HOME": ".gradle/usrhome", 
+    "GIT_CONFIG_NOSYSTEM": "nosystem"
   },
   "baseBranches": ["mdg"],
   "packageRules": [
